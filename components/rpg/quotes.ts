@@ -42,12 +42,15 @@ const quotes: Quote[] = [
   { text: "Every company is a technology company.", author: "Gary Vaynerchuk", category: "future" },
   { text: "The real danger is not that computers will begin to think like men, but that men will begin to think like computers.", author: "Sydney J. Harris", category: "wisdom" },
   
-  // Neon Hardcade Originals
+  // Hardcade Originals (Dictum-style expressions)
   { text: "Walk to the light. Press E. Pretend I'm not excited.", author: "Hardcade System", category: "cyber" },
   { text: "In the neon grid, every door is a portal, every choice a commit.", author: "Hardcade Archives", category: "cyber" },
   { text: "Your pages are portals. Your navigation is legendary.", author: "Hardcade Protocol", category: "cyber" },
   { text: "Third person or isometric, the view is always forward.", author: "CameraRig.tsx", category: "code" },
   { text: "WASD for motion. E for destiny. T for perspective.", author: "Input Handler", category: "code" },
+  { text: "It boots, it routes, it feels like Night City without the bugs.", author: "Scene.tsx", category: "cyber" },
+  { text: "Keep SSR out of the blast radius.", author: "Next.js Hygiene", category: "code" },
+  { text: "The canvas is a portal. The player is a promise.", author: "Fiber Runtime", category: "tech" },
 ];
 
 /**
@@ -63,36 +66,4 @@ export function getRandomQuote(): Quote {
 export function getQuoteByCategory(category: Quote["category"]): Quote {
   const filtered = quotes.filter((q) => q.category === category);
   return filtered[Math.floor(Math.random() * filtered.length)] || getRandomQuote();
-}
-
-/**
- * Get quote for a specific navigation destination
- */
-export function getQuoteForDestination(destination: string): Quote {
-  const destinationQuotes: Record<string, Quote> = {
-    Main: { text: "Every journey begins with a single step into the void.", author: "System Core", category: "cyber" },
-    About: { text: "Know thyself, and you shall know the universe.", author: "Ancient Protocol", category: "wisdom" },
-    Gallery: { text: "Art is how we decorate space. Music is how we decorate time.", author: "Jean-Michel Basquiat", category: "wisdom" },
-    Dashboard: { text: "Data is the new oil, but insight is the refinery.", author: "Analytics Engine", category: "tech" },
-    Contact: { text: "Connection is why we're here. We are hardwired to connect.", author: "Brené Brown", category: "wisdom" },
-  };
-  
-  return destinationQuotes[destination] || getRandomQuote();
-}
-
-/**
- * Get a quote rotation stream (for continuous display)
- */
-export function* quoteRotation(intervalMs: number = 10000): Generator<Quote, never, never> {
-  let lastQuote: Quote | null = null;
-  
-  while (true) {
-    let quote = getRandomQuote();
-    // Avoid repeating the same quote twice in a row
-    while (lastQuote && quote.text === lastQuote.text) {
-      quote = getRandomQuote();
-    }
-    lastQuote = quote;
-    yield quote;
-  }
 }
